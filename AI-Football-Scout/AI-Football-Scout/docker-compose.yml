@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: scout_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ai_football_scout
+    ports:
+      - "3307:3306"
+    restart: always
+    # BÍ QUYẾT TẠI ĐÂY: Thêm Healthcheck để liên tục "gõ cửa" kiểm tra MySQL
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+
+  app:
+    build: .
+    container_name: scout_backend
+    depends_on:
+      # Thay đổi depends_on: Ép Spring Boot phải chờ đến khi MySQL báo "healthy" mới được chạy
+      mysql_db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/ai_football_scout?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update 
+      - GEMINI_API_KEY= AIzaSyD9BU7qzIbKlWHCcp0DAK5SDrKrYcuEAE8
+    restart: always

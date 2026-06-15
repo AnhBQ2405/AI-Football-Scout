@@ -1,0 +1,6 @@
+body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+.container { background: white; padding: 20px; border-radius: 10px; width: 450px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+#chat-box { height: 350px; border: 1px solid #ddd; overflow-y: auto; margin-bottom: 15px; padding: 10px; background: #fff; }
+#chat-box p { margin: 8px 0; line-height: 1.4; }
+input { width: 75%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+button { padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
